@@ -1,0 +1,21 @@
+[Unit]
+Description=Wazuh agent
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+TimeoutSec=45
+
+ExecStart=
+#ExecStart=/usr/bin/env /var/ossec/bin/wazuh-control start
+#ExecStart=/var/ossec/bin/wazuh-agentd -c /var/ossec/etc/ossec.conf
+ExecStart=/var/ossec/bin/wazuh-launch.sh
+ExecStop=/usr/bin/env /var/ossec/bin/wazuh-control stop
+ExecReload=/usr/bin/env /var/ossec/bin/wazuh-control reload
+
+KillMode=process
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
